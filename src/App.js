@@ -1,8 +1,10 @@
-import React from "react";
+import React, {Component} from "react";
 import { Switch, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage";
+import HomePage from './components/HomePage'
 
-function App() {
+
+class App extends Component {
+  render() {
   return (
     <div className="App">
       <Switch>
@@ -10,6 +12,7 @@ function App() {
       </Switch>
     </div>
   );
-}
+  }
 
+}
 export default App;
