@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
-import NavBar from './NavBar'
+import NewPost from './NewPost'
+
 
  class HomePage extends Component {
+     
     render() {
         return (
             <div>
-                <NavBar/>
-                <h1>wheels in motion</h1>
-
+                <NewPost />
+               <h1>sport car user posts!</h1>
             </div>
         )
     }
