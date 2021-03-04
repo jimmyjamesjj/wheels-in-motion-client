@@ -7,6 +7,7 @@ import Signup from './components/Signup'
 import axios from 'axios'
 import config from './config'
 import Signin from './components/Signin'
+import NewPost from './components/NewPost'
 
 class App extends Component {
   state={
@@ -87,6 +88,7 @@ handleSignIn = (event) => {
     <div className="App">
       <NavBar/>
       <Switch>
+        <NewPost/>
         <Route exact path="/" component={HomePage}  />
         
             {/* <Route  path="/SportcarDetails/:sportcarId" render={() => {
@@ -95,7 +97,7 @@ handleSignIn = (event) => {
                 <Route path="/Signup"  render ={()=>{
                   return <Signup onSignUp={this.handleSignUp} />
                 }}/>
-  
+
                 <Route  path="/signin"  render={(routeProps) => {
               return  <Signin onSignIn={this.handleSignIn} {...routeProps}  />
             }}/>

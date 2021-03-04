@@ -21,10 +21,10 @@ import {Link} from  'react-router-dom'
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
-          <Link to="/Signup" class="button is-primary">
+          <Link to="/Signup" className="button is-primary">
             <strong>Sign up</strong>
           </Link>
-          <Link to="/Signin" class="button is-primary"> 
+          <Link to="/Signin" className="button is-primary"> 
           <strong>Log in</strong>
           </Link>
         </div>
