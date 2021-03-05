@@ -5,7 +5,9 @@ import React, { Component } from 'react'
         return (
             <div><div> <h1>Creat sport car post</h1>
             </div>
-                <form onSubmit={this.props.onAdd}>
+                <form  onSubmit={this.props.submitPost}>
+
+                <input name="image" type="file" />
                 <div className="form-group">
                 <label htmlFor="InputUsername">Car name</label>
                 <input type="text" className="form-control" id="InputUsername" name="carname"

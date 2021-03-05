@@ -1,17 +1,38 @@
+import axios from 'axios'
 import React, { Component } from 'react'
-import NewPost from './NewPost'
+import config from '../config'
+import {Link, Redirect} from 'react-router-dom'
+import SportcarDetails from '../components/SportcarDetails'
 
 
  class HomePage extends Component {
-     
-    render() {
+     state ={
+         sportcar:[]
+     }
+     componentDidMount(){
+        axios.get(`${config.API_URL}/api/Sportcar`)
+          .then((response) => {
+              console.log(response.data)
+            this.setState({ sportcar: response.data })
+          })
+          .catch(() => {
+          })
+      }
+    
+      render() {
+        const {sportcar} = this.state
         return (
-            <div>
-                <NewPost />
-               <h1>sport car user posts!</h1>
-            </div>
+          <div>
+            <div> {sportcar.image}</div>
+            <div>Name: {sportcar.carName}</div>
+            <Link to={`/SportcarDetails/${sportcar._id}`}>
+              <button class="button is-info">view details</button>
+            </Link>
+            
+    
+          </div>
         )
+      }
     }
-}
 
 export default HomePage

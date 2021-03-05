@@ -8,11 +8,34 @@ import axios from 'axios'
 import config from './config'
 import Signin from './components/Signin'
 import NewPost from './components/NewPost'
+import Profile from './components/Profile'
 
 class App extends Component {
   state={
     sportcar:[]
 }
+componentDidMount(){
+  axios.get(`${config.API_URL}/api/wheelsInMotion`)
+    .then((response) => {
+      this.setState({ sportcar: response.data})
+    })
+    .catch(() => {
+  
+    })
+
+  if (!this.state.loggedInUser) {
+    axios.get(`${config.API_URL}/api/User`, {withCredentials: true})
+      .then((response) => {
+          this.setState({
+            loggedInUser: response.data
+          })
+      })
+      .catch(() => {
+
+      })
+  }  
+}
+
 handleSignUp = (event) => {
   event.preventDefault()
   let user = {
@@ -30,37 +53,50 @@ handleSignUp = (event) => {
           this.props.history.push('/')
         })
     })
-    .catch((err) => {
+    .catch(() => {
     })
 }
 
 handleSubmit = (event) => {
   event.preventDefault()
-  let fname = event.target.fname.value
-  let sname = event.target.sname.value
-  let email = event.target.email.value
-  let password= event.target.password.value
   
-  axios.post(`${config.API_URL}/api/create`, {
-    fname: fname,
-    sname: sname,
-    email:email,
-    password:password,
+    let carName = event.target.carname.value
+    let Tansmission = event.target.transmission.value
+    let wheelDrive= event.target.wheeldrive.value
+    let Horsepower = event.target.horsepower.value
+   let carModel =event.target.carmodel.value
+   let insuranced = event.target.insurance.value
+    let User = this.state.loggedInUser._id
+  let image= event.target.image.files[0]
 
-  })
-    .then((response) => {
-      
-        this.setState({
-          sportcar: [response.data, ...this.state.sportcar]
-        }, () => {
+  let uploadImage= new FormData()
+  uploadImage.append('imageUrl', image)
+  
+  //upload image to the database
+axios.post(`${config.API_URL}/api/upload`, uploadImage)
+    .then((response) =>{
+      axios.post(`${config.API_URL}/api/Sportcar/create`, {
+        carName:carName, Tansmission:Tansmission, wheelDrive:wheelDrive, Horsepower:Horsepower,
+        carModel:carModel, insuranced:insuranced, User:User, image: response.data.image
 
-          this.props.history.push('/')
-        })
+      }) 
+            .then((response) => {
+                this.setState({
+                  sportcar: [response.data, ...this.state.sportcar]
+                }, () => {
 
-    })
-    .catch((err) => {
-      console.log('Create failed', err)
-    })
+                  this.props.history.push('/')
+                })
+
+            })
+            .catch(() => {
+            })
+   })
+   .catch(()=>{
+
+   })
+
+
 }
 
 handleSignIn = (event) => {
@@ -75,11 +111,10 @@ handleSignIn = (event) => {
         this.setState({
           loggedInUser: response.data
         }, () => {
-          this.props.history.push('/')
+          this.props.history.push('/Profile')
         })
     })
-    .catch((err) => {
-        console.log('Something went wrong', err)
+    .catch(() => {
     })
  }
 
@@ -88,11 +123,9 @@ handleSignIn = (event) => {
     <div className="App">
       <NavBar/>
       <Switch>
-        <NewPost/>
         <Route exact path="/" component={HomePage}  />
         
-            {/* <Route  path="/SportcarDetails/:sportcarId" render={() => {
-                return <SportcarDetails   />   }} /> */}
+            
 
                 <Route path="/Signup"  render ={()=>{
                   return <Signup onSignUp={this.handleSignUp} />
@@ -102,7 +135,11 @@ handleSignIn = (event) => {
               return  <Signin onSignIn={this.handleSignIn} {...routeProps}  />
             }}/>
 
-
+            { <Route  path="/SportcarDetails/:SportcarId" render={() => {
+                return <SportcarDetails   />   }} /> }
+            <Route path ="/Profile" render={ ()=> { 
+              return <Profile  onSubmit={this.handleSubmit}/>}}/>
+           
 
       </Switch>
     </div>

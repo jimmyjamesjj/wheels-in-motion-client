@@ -1,18 +1,54 @@
 import React, { Component } from 'react'
+import axios from 'axios'
+import {Link, Redirect} from 'react-router-dom'
+import config from '../config'
+import Requestcar from '../components/Requestcar'
 
- class sportcarDetails extends Component {
-    render() {
+ class SportcarDetails extends Component {
+    state = {
+        sportcar: {}
+      }
+    
+      componentDidMount(){
+        
+     
+       let sportcarId = this.props.match.params.sportcarId
+        axios.get(`${config.API_URL}/api/wheelsInMotion/${sportcarId}`)
+          .then((response) => {
+            this.setState({ sportcar: response.data })
+          })
+          .catch(() => {
+          })
+      }
+    
+      render() {
+        const {sportcar} = this.state
+        const {onDelete, user} = this.props
+        if (!user) {
+            return <Redirect to={'/Signin'} />
+        }
+    
         return (
-            <div>
-                <div> </div>
-                <div></div>    
-                <div></div>
-                <div></div>
-                <div></div>
+          <div>
+            <h3> Sport car Details are:</h3>
+            <div>{sportcar.image }</div>
+            <div> Sportcar name: {sportcar.carname}</div>
+            <div>Tansmission: {sportcar.transmission}</div>
+            <div>Wheeldrive: {sportcar.wheeldrive}</div>
+            <div>Horsepower: {sportcar.horsepower}</div>
+            <div>Insurance: {sportcar.insurance}</div>    
+            <div>Car Model: {sportcar.carmodel}</div>
+            
+            <Link to={`/sportcar/${sportcar._id}/edit`}>
+              <button>Edit</button>
+            </Link>
+            <button onClick={() => { onDelete(sportcar._id)  } } >Delete</button>
 
-            </div>
+           <Requestcar/> 
+          </div>
         )
+      }
     }
-}
 
-export default sportcarDetails
+
+    export default SportcarDetails
