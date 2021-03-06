@@ -10,28 +10,28 @@ import React, { Component } from 'react'
                 <input name="image" type="file" />
                 <div className="form-group">
                 <label htmlFor="InputUsername">Car name</label>
-                <input type="text" className="form-control" id="InputUsername" name="carname"
+                <input type="text" className="form-control" id="InputUsername" name="carName"
                  placeholder="Entre car name" />
             </div>
 
             <div className="form-group">
                 <label htmlFor="InputUsername">Transmisson</label>
-                <input type="text" className="form-control" id="InputUsername" name="transmission"
+                <input type="text" className="form-control" id="InputUsername" name="Transmission"
                    placeholder="Entr transmission"/>
             </div>
             <div className="form-group">
                 <label htmlFor="InputUsername">Wheel drive</label>
-                <input type="text" className="form-control" id="InputUsername" name="wheeldrive"
+                <input type="text" className="form-control" id="InputUsername" name="wheelDrive"
                  placeholder="Entre car name" />
             </div>
             <div className="form-group">
                 <label htmlFor="InputUsername">Horsepower</label>
-                <input type="text" className="form-control" id="InputUsername" name="horsepower"
+                <input type="text" className="form-control" id="InputUsername" name="Horsepower"
                  placeholder="Entre horsepower" />
             </div>
             <div className="form-group">
                 <label htmlFor="InputUsername">Car Model</label>
-                <input type="text" className="form-control" id="InputUsername" name="carmodel"
+                <input type="text" className="form-control" id="InputUsername" name="carModel"
                  placeholder="Enter year" />
             </div>
         <div className="form-group">

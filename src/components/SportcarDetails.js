@@ -6,38 +6,40 @@ import Requestcar from '../components/Requestcar'
 
  class SportcarDetails extends Component {
     state = {
-        sportcar: {}
+        sportcar: []
       }
     
       componentDidMount(){
         
      
        let sportcarId = this.props.match.params.sportcarId
-        axios.get(`${config.API_URL}/api/wheelsInMotion/${sportcarId}`)
+        axios.get(`${config.API_URL}/api/Sportcar/:${sportcarId}`)
           .then((response) => {
             this.setState({ sportcar: response.data })
           })
-          .catch(() => {
+          .catch((err) => {
+            console.log(err,'user not found')
           })
       }
     
       render() {
         const {sportcar} = this.state
         const {onDelete, user} = this.props
-        if (!user) {
-            return <Redirect to={'/Signin'} />
-        }
-    
+        // if (!user) {
+        //     return <Redirect to={'/Signin'} />
+        // }
+        //console.log(this.props.sportcar)
         return (
           <div>
-            <h3> Sport car Details are:</h3>
-            <div>{sportcar.image }</div>
-            <div> Sportcar name: {sportcar.carname}</div>
-            <div>Tansmission: {sportcar.transmission}</div>
-            <div>Wheeldrive: {sportcar.wheeldrive}</div>
-            <div>Horsepower: {sportcar.horsepower}</div>
+            
+            <h3> Sport car Details are</h3>
+            <div>{sportcar.image } </div>
+            <div> Sportcar name: {sportcar.carName}</div>
+            <div>Tansmission: {sportcar.Transmission}</div>
+            <div>Wheeldrive: {sportcar.wheelDrive}</div>
+            <div>Horsepower: {sportcar.Horsepower}</div>
             <div>Insurance: {sportcar.insurance}</div>    
-            <div>Car Model: {sportcar.carmodel}</div>
+            <div>Car Model: {sportcar.carModel}</div>
             
             <Link to={`/sportcar/${sportcar._id}/edit`}>
               <button>Edit</button>

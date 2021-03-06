@@ -12,10 +12,12 @@ import Profile from './components/Profile'
 
 class App extends Component {
   state={
-    sportcar:[]
+    sportcar:[],
+    loggedInUser: null,
+    error: null,
 }
 componentDidMount(){
-  axios.get(`${config.API_URL}/api/wheelsInMotion`)
+  axios.get(`${config.API_URL}/api/sportcar`)
     .then((response) => {
       this.setState({ sportcar: response.data})
     })
@@ -60,12 +62,12 @@ handleSignUp = (event) => {
 handleSubmit = (event) => {
   event.preventDefault()
   
-    let carName = event.target.carname.value
-    let Tansmission = event.target.transmission.value
-    let wheelDrive= event.target.wheeldrive.value
-    let Horsepower = event.target.horsepower.value
-   let carModel =event.target.carmodel.value
-   let insuranced = event.target.insurance.value
+    let carName = event.target.carName.value
+    let Transmission = event.target.Transmission.value
+    let wheelDrive= event.target.wheelDrive.value
+    let Horsepower = event.target.Horsepower.value
+   let carModel =event.target.carModel.value
+   let insurance = event.target.insurance.value
     let User = this.state.loggedInUser._id
   let image= event.target.image.files[0]
 
@@ -76,8 +78,8 @@ handleSubmit = (event) => {
 axios.post(`${config.API_URL}/api/upload`, uploadImage)
     .then((response) =>{
       axios.post(`${config.API_URL}/api/Sportcar/create`, {
-        carName:carName, Tansmission:Tansmission, wheelDrive:wheelDrive, Horsepower:Horsepower,
-        carModel:carModel, insuranced:insuranced, User:User, image: response.data.image
+        carName:carName, Transmission:Transmission, wheelDrive:wheelDrive, Horsepower:Horsepower,
+        carModel:carModel, insurance:insurance, User:User, image: response.data.image
 
       }) 
             .then((response) => {
@@ -119,24 +121,22 @@ handleSignIn = (event) => {
  }
 
   render() {
+    const {sportcar, loggedInUser, error} = this.state
+
   return (
     <div className="App">
       <NavBar/>
       <Switch>
-        <Route exact path="/" component={HomePage}  />
-        
-            
-
-                <Route path="/Signup"  render ={()=>{
-                  return <Signup onSignUp={this.handleSignUp} />
-                }}/>
-
+        <Route exact path="/" render = {()=>{ 
+          return <HomePage sportcar={sportcar}/>
+        }} />
                 <Route  path="/signin"  render={(routeProps) => {
               return  <Signin onSignIn={this.handleSignIn} {...routeProps}  />
             }}/>
 
-            { <Route  path="/SportcarDetails/:SportcarId" render={() => {
-                return <SportcarDetails   />   }} /> }
+            { <Route  path="/SportcarDetails/:SportcarId" render={(routeProps) => {
+                return <SportcarDetails {...routeProps}  />   }} /> }
+
             <Route path ="/Profile" render={ ()=> { 
               return <Profile  onSubmit={this.handleSubmit}/>}}/>
            
