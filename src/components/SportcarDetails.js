@@ -1,21 +1,23 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import Requestcar from '../components/Requestcar'
 import {Link, Redirect} from 'react-router-dom'
 import config from '../config'
-import Requestcar from '../components/Requestcar'
 
- class SportcarDetails extends Component {
+
+export default class SportcarDetails extends Component {
     state = {
-        sportcar: []
+        sportcars: {},
+        user:{} 
       }
     
       componentDidMount(){
-        
+        console.log(this.props)
      
-       let sportcarId = this.props.match.params.sportcarId
-        axios.get(`${config.API_URL}/api/Sportcar/:${sportcarId}`)
+       let sportcarsId = this.props.match.params.sportcarsId
+        axios.get(`${config.API_URL}/api/Sportcars/sportcars${sportcarsId}`)
           .then((response) => {
-            this.setState({ sportcar: response.data })
+            this.setState({ sportcars: response.data })
           })
           .catch((err) => {
             console.log(err,'user not found')
@@ -23,7 +25,7 @@ import Requestcar from '../components/Requestcar'
       }
     
       render() {
-        const {sportcar} = this.state
+        const {sportcars} = this.state
         const {onDelete, user} = this.props
         // if (!user) {
         //     return <Redirect to={'/Signin'} />
@@ -31,26 +33,26 @@ import Requestcar from '../components/Requestcar'
         //console.log(this.props.sportcar)
         return (
           <div>
-            
             <h3> Sport car Details are</h3>
-            <div>{sportcar.image } </div>
-            <div> Sportcar name: {sportcar.carName}</div>
-            <div>Tansmission: {sportcar.Transmission}</div>
-            <div>Wheeldrive: {sportcar.wheelDrive}</div>
-            <div>Horsepower: {sportcar.Horsepower}</div>
-            <div>Insurance: {sportcar.insurance}</div>    
-            <div>Car Model: {sportcar.carModel}</div>
+            <div> Sportcar name: {sportcars.carName}</div>
+            <div>Tansmission: {sportcars.Transmission}</div>
+            <div>Wheeldrive: {sportcars.wheelDrive}</div>
+            <div>Horsepower: {sportcars.Horsepower}</div>
+            <div>Insured: {sportcars.insurance}</div>    
+            <div>Car Model: {sportcars.carModel}</div>
             
-            <Link to={`/sportcar/${sportcar._id}/edit`}>
+            <Link to={`/Sportcars/${sportcars._id}/edit`}>
               <button>Edit</button>
             </Link>
-            <button onClick={() => { onDelete(sportcar._id)  } } >Delete</button>
+            <button onClick={() => { onDelete(sportcars._id)  } } >Delete</button>
 
-           <Requestcar/> 
+            {/* <Link to={`/Requestcar/${sportcar._id}/sportcar`}>Request to hire this car</Link> */}
+            <Requestcar/>
+           
           </div>
         )
       }
     }
 
 
-    export default SportcarDetails
+    

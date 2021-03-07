@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import config from '../config'
 import {Link, Redirect} from 'react-router-dom'
 import SportcarDetails from '../components/SportcarDetails'
+import NavBar from '../components/NavBar'
 
 
  class HomePage extends Component {
@@ -20,30 +21,35 @@ import SportcarDetails from '../components/SportcarDetails'
     //   }
     
       render() {
-        const {sportcar} = this.props
+        const {sportcars} = this.props
+        let styles ={
+          width:'550px',
+          height: '400px'
+        }
+      
         return (
           <div>
+            <NavBar/>
             <h2>sport car posts</h2>
             {
 
-              sportcar.map((sportcar)=>{
-                return <div className="pics" key={sportcar._id}> {sportcar.carName}
-                 {
-          sportcar.image ? (
-            <img  src={sportcar.image} alt={sportcar.name} />
+              sportcars.map((sportcars)=>{
+                return <div className="pics" key={sportcars._id}> {sportcars.carName}  
+                 { 
+          sportcars.image ? (
+            <img style={styles} className="image is-128x128" width="4000px" src={sportcars.image} alt={sportcars.carName} />
           ) : null
-        }
-        <Link to={`/SportcarDetails/${sportcar._id}`}>
-              <button class="button is-info">view details</button>
+               }
+        
+        <Link  to={`/SportcarDetails/${sportcars._id}`}   >  
+              <button class="button is-info">view details</button> 
             </Link>
+            
                  </div>
+                 
               })
             }
-            {/* <div> {sportcar.image} </div>
-            <div>Name: {sportcar.carName}</div>
-            <Link to={`/SportcarDetails/${sportcar._id}`}>
-              <button class="button is-info">view details</button>
-            </Link> */}
+            
             
     
           </div>

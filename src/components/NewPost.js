@@ -8,6 +8,7 @@ import React, { Component } from 'react'
                 <form  onSubmit={this.props.submitPost}>
 
                 <input name="image" type="file" />
+
                 <div className="form-group">
                 <label htmlFor="InputUsername">Car name</label>
                 <input type="text" className="form-control" id="InputUsername" name="carName"
@@ -17,7 +18,7 @@ import React, { Component } from 'react'
             <div className="form-group">
                 <label htmlFor="InputUsername">Transmisson</label>
                 <input type="text" className="form-control" id="InputUsername" name="Transmission"
-                   placeholder="Entr transmission"/>
+                   placeholder="Entre transmission"/>
             </div>
             <div className="form-group">
                 <label htmlFor="InputUsername">Wheel drive</label>
@@ -28,19 +29,20 @@ import React, { Component } from 'react'
                 <label htmlFor="InputUsername">Horsepower</label>
                 <input type="text" className="form-control" id="InputUsername" name="Horsepower"
                  placeholder="Entre horsepower" />
-            </div>
-            <div className="form-group">
+             </div>
+             <div className="form-group">
                 <label htmlFor="InputUsername">Car Model</label>
                 <input type="text" className="form-control" id="InputUsername" name="carModel"
                  placeholder="Enter year" />
             </div>
-        <div className="form-group">
-                <label htmlFor="InputUsername">Insurance </label>
+             <div className="form-group">
+                <label htmlFor="InputUsername">Insured </label>
                 <input type="text" className="form-control" id="InputUsername" name="insurance" 
                  placeholder="Yes or No?"/>
             </div>
 
         <button type="submit" className="button is-primary">Post</button>
+
       </form>
             </div>
         )

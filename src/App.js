@@ -9,17 +9,18 @@ import config from './config'
 import Signin from './components/Signin'
 import NewPost from './components/NewPost'
 import Profile from './components/Profile'
+import EditPost from "./components/EditPost";
 
 class App extends Component {
   state={
-    sportcar:[],
+    sportcars:[],
     loggedInUser: null,
     error: null,
 }
 componentDidMount(){
-  axios.get(`${config.API_URL}/api/sportcar`)
+  axios.get(`${config.API_URL}/api/sportcars`)
     .then((response) => {
-      this.setState({ sportcar: response.data})
+      this.setState({ sportcars: response.data})
     })
     .catch(() => {
   
@@ -77,17 +78,17 @@ handleSubmit = (event) => {
   //upload image to the database
 axios.post(`${config.API_URL}/api/upload`, uploadImage)
     .then((response) =>{
-      axios.post(`${config.API_URL}/api/Sportcar/create`, {
+      axios.post(`${config.API_URL}/api/sportcars/create`, {
         carName:carName, Transmission:Transmission, wheelDrive:wheelDrive, Horsepower:Horsepower,
         carModel:carModel, insurance:insurance, User:User, image: response.data.image
 
       }) 
             .then((response) => {
                 this.setState({
-                  sportcar: [response.data, ...this.state.sportcar]
+                  sportcars: [response.data, ...this.state.sportcars]
                 }, () => {
 
-                  this.props.history.push('/')
+                  this.props.history.push('/','/Profile')
                 })
 
             })
@@ -116,29 +117,96 @@ handleSignIn = (event) => {
           this.props.history.push('/Profile')
         })
     })
+    .catch((err) => {
+      console.log('Something went wrong', err)
+    })
+ }
+// logout function 
+handleLogout = () => {
+  
+  axios.post(`${config.API_URL}/api/logout`, {}, {withCredentials: true})
+  .then(() => {
+      this.setState({
+        loggedInUser: null
+      }, () => {
+        this.props.history.push('/')
+      })
+  })
+
+ }
+ handleEditSportcar =(sportcars)=>{
+  axios.patch(`${config.API_URL}/api/Sportcars/${sportcars._id}`, {
+    carName: sportcars.carName, Transmission: sportcars.Transmission, wheelDrive: sportcars.wheelDrive, 
+    Horsepower: sportcars.Horsepower, carModel: sportcars.carModel, insurance: sportcars.insurance, User: sportcars.User
+  })
+    .then(() => {
+        let newsportcar = this.state.sportcar.map((singlesportcar) => {
+            if (sportcars._id === singlesportcar._id) {
+              singlesportcar.carName  = sportcars.carName
+              singlesportcar.Transmission =sportcars.Transmission
+              singlesportcar.wheelDrive = sportcars.wheelDrive
+              singlesportcar.Horsepower = sportcars.Horsepower
+              singlesportcar.carModel = sportcars.carModel
+              singlesportcar.insurance = sportcars.insurance
+              singlesportcar.User = sportcars.User
+            }
+            return singlesportcar
+        })
+        this.setState({
+          sportcars: newsportcar
+        }, () => {
+          this.props.history.push('/')
+        })
+
+        
+    })
     .catch(() => {
+
     })
  }
 
+ handleDelete = (sportcarsId) => {
+
+    axios.delete(`${config.API_URL}/api/sportcars/${sportcarsId}`)
+      .then(() => {
+          let filteredsportcar = this.state.sportcars.filter((sportcars) => {
+            return sportcars._id !== sportcarsId
+          })
+
+          this.setState({
+            sportcars: filteredsportcar
+          }, () => {
+            this.props.history.push('/')
+          })
+      })
+      .catch((err) => {
+        console.log('Delete failed', err)
+      })
+
+ }
+
   render() {
-    const {sportcar, loggedInUser, error} = this.state
+    const {sportcars, loggedInUser, error} = this.state
 
   return (
     <div className="App">
-      <NavBar/>
+      
       <Switch>
-        <Route exact path="/" render = {()=>{ 
-          return <HomePage sportcar={sportcar}/>
-        }} />
+        <Route  exact path="/" render = {()=>{ 
+          return <HomePage sportcars={sportcars}/>
+        }}   />
                 <Route  path="/signin"  render={(routeProps) => {
               return  <Signin onSignIn={this.handleSignIn} {...routeProps}  />
             }}/>
 
-            { <Route  path="/SportcarDetails/:SportcarId" render={(routeProps) => {
-                return <SportcarDetails {...routeProps}  />   }} /> }
+            { <Route  path="/SportcarDetails/:sportcarsId" render={(routeProps) => {
+                return <SportcarDetails user={loggedInUser} {...routeProps}  />   }} /> }
 
             <Route path ="/Profile" render={ ()=> { 
-              return <Profile  onSubmit={this.handleSubmit}/>}}/>
+              return <Profile onLogout={this.handleLogout} user={loggedInUser} onSubmit={this.handleSubmit}/>}}/>
+            <Route path="/sportcars/:sportcarsId/edit" render = {(routeProps)=>{
+              return <EditPost onEdit={this.handleEditSportcar} {...routeProps}/>
+            }}/>
            
 
       </Switch>
