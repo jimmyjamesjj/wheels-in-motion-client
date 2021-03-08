@@ -22,6 +22,7 @@ import NavBar from '../components/NavBar'
     
       render() {
         const {sportcars} = this.props
+        const {user, loggedInUser} = this.props
         let styles ={
           width:'550px',
           height: '400px'
@@ -42,7 +43,9 @@ import NavBar from '../components/NavBar'
                }
         
         <Link  to={`/SportcarDetails/${sportcars._id}`}   >  
-              <button class="button is-info">view details</button> 
+                
+
+              <button user={loggedInUser} class="button is-info">view details</button> 
             </Link>
             
                  </div>

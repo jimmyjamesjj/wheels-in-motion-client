@@ -4,12 +4,14 @@ class requestcar extends Component {
     render() {
         return (
             <div>
+
                 <h1>Request to hire this sport car</h1>
-                <form>
+                <form  onSubmit={this.props.onSubmit}>
+                <div><input type="hidden"  name="User" ></input></div>
                 <div className="form-group">
                 <label htmlFor="InputUsername">date</label>
                 <input type="text" className="form-control" id="InputUsername" name="date"
-                   placeholder="Select date"/> </div>
+                 placeholder="Select date"/> </div>
 
                <div className="form-group">
                 <label htmlFor="InputUsername">Address</label>

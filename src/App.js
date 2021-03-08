@@ -10,12 +10,14 @@ import Signin from './components/Signin'
 import NewPost from './components/NewPost'
 import Profile from './components/Profile'
 import EditPost from "./components/EditPost";
+import Requestcar from './components/Requestcar'
 
 class App extends Component {
   state={
     sportcars:[],
     loggedInUser: null,
     error: null,
+    requestcar:[],
 }
 componentDidMount(){
   axios.get(`${config.API_URL}/api/sportcars`)
@@ -88,7 +90,7 @@ axios.post(`${config.API_URL}/api/upload`, uploadImage)
                   sportcars: [response.data, ...this.state.sportcars]
                 }, () => {
 
-                  this.props.history.push('/','/Profile')
+                  this.props.history.push('/')
                 })
 
             })
@@ -101,6 +103,32 @@ axios.post(`${config.API_URL}/api/upload`, uploadImage)
 
 
 }
+
+handleRquestCarSubmit=((event)=>{
+        event.preventDefault()
+        let date = event.target.date.value
+        let address= event.target.address.value
+
+        let User = this.state.loggedInUser._id
+        // let Sportcar= target.Sportcar._id
+
+      axios.post(`${config.API_URL}/api/requestcar/create`,{
+        date:date, address:address, User:User
+      })
+      .then((response) => {
+        this.setState({
+          requestcar: [response.data, ...this.state.requestcar]
+        }, () => {
+
+          this.props.history.push('/')
+        })
+
+      })
+      .catch(() => {
+      })
+
+
+})
 
 handleSignIn = (event) => {
   event.preventDefault()
@@ -135,9 +163,10 @@ handleLogout = () => {
 
  }
  handleEditSportcar =(sportcars)=>{
-  axios.patch(`${config.API_URL}/api/Sportcars/${sportcars._id}`, {
+  axios.patch(`${config.API_URL}/api/sportcars/${sportcars._id}`, {
     carName: sportcars.carName, Transmission: sportcars.Transmission, wheelDrive: sportcars.wheelDrive, 
-    Horsepower: sportcars.Horsepower, carModel: sportcars.carModel, insurance: sportcars.insurance, User: sportcars.User
+    Horsepower: sportcars.Horsepower, carModel: sportcars.carModel, insurance: sportcars.insurance, 
+    User: sportcars.User
   })
     .then(() => {
         let newsportcar = this.state.sportcar.map((singlesportcar) => {
@@ -202,12 +231,19 @@ handleLogout = () => {
             { <Route  path="/SportcarDetails/:sportcarsId" render={(routeProps) => {
                 return <SportcarDetails user={loggedInUser} {...routeProps}  />   }} /> }
 
-            <Route path ="/Profile" render={ ()=> { 
-              return <Profile onLogout={this.handleLogout} user={loggedInUser} onSubmit={this.handleSubmit}/>}}/>
+            <Route path ="/Profile" render={ (routeProps)=> { 
+              return <Profile sportcars={this.state.sportcars} onLogout={this.handleLogout}
+               user={loggedInUser} onSubmit={this.handleSubmit}  onDelete={this.handleDelete} {...routeProps}/>}}/>
+
             <Route path="/sportcars/:sportcarsId/edit" render = {(routeProps)=>{
               return <EditPost onEdit={this.handleEditSportcar} {...routeProps}/>
             }}/>
+
+            <Route path="/NewPost" render={ (routeProps)=>{ return <NewPost 
+            onSubmit={this.handleSubmit} {...routeProps} /> }}/>
            
+           <Route path="/Requestcar" render={ (routeProps)=>{ return <Requestcar onSubmit={this.handleRquestCarSubmit}
+            {...routeProps}/>}}/>
 
       </Switch>
     </div>
