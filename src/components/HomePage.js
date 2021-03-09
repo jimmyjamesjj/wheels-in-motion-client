@@ -25,19 +25,23 @@ import NavBar from '../components/NavBar'
         const {user, loggedInUser} = this.props
         let styles ={
           width:'550px',
-          height: '400px'
+          height: '400px',
+          margin: '0px'
         }
       
         return (
           <div>
-            <NavBar/>
+            <NavBar />
             <h2>sport car posts</h2>
+
             {
 
               sportcars.map((sportcars)=>{
                 return <div className="pics" key={sportcars._id}> {sportcars.carName}  
+                
                  { 
           sportcars.image ? (
+            
             <img style={styles} className="image is-128x128" width="4000px" src={sportcars.image} alt={sportcars.carName} />
           ) : null
                }

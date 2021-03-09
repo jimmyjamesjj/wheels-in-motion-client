@@ -2,25 +2,25 @@ import React, { Component } from 'react'
 import 'bulma/css/bulma.css'
 import {Link} from  'react-router-dom'
 
+
  class NavBar extends Component {
     render() {
         return (
           
             <div>
               
-                <nav class="navbar" role="navigation" aria-label="main navigation">
+              
+                <div class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
-      
-    
-
       </div>
     </div>
 
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
+      
           <Link to="/Signup" className="button is-primary">
             <strong>Sign up</strong>
           </Link>
@@ -31,7 +31,8 @@ import {Link} from  'react-router-dom'
       </div>
     </div>
   </div>
-</nav>
+</div>
+
 
 
             </div>

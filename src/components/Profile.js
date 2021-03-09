@@ -14,13 +14,15 @@ class profile extends Component {
           width:'550px',
           height: '400px'
            }
-          //  let filteredsportcar = sportcars.filter((sportcars)=>{
+           let filteredsportcar = sportcars.filter((sportcars)=>{
 
-          //   if(!user._id==this.props.user){
-          //     return filteredsportcar
-          //   }
+
+            if(this.props.user && (sportcars.User==this.props.user._id)){
+
+              return sportcars
+            }
              
-          //  })
+           })
 
           return (
             
@@ -40,7 +42,7 @@ class profile extends Component {
             
             <h2>my sport car posts</h2>
             {
-              sportcars.map((sportcars)=>{
+              filteredsportcar.map((sportcars)=>{
                 return <div className="pics" key={sportcars._id}> {sportcars.carName}  
                  { 
               sportcars.image ? (

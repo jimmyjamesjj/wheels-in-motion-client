@@ -29,8 +29,9 @@ componentDidMount(){
     })
 
   if (!this.state.loggedInUser) {
-    axios.get(`${config.API_URL}/api/User`, {withCredentials: true})
+    axios.get(`${config.API_URL}/api/user`, {withCredentials: true})
       .then((response) => {
+        console.log(response.data)
           this.setState({
             loggedInUser: response.data
           })
@@ -50,7 +51,7 @@ handleSignUp = (event) => {
     password: event.target.password.value
   } 
 
-  axios.post(`${config.API_URL}/api/Signup`, user)
+  axios.post(`${config.API_URL}/api/Signup`, user, {withCredentials: true})
     .then((response) => {
         this.setState({
           loggedInUser: response.data
@@ -84,7 +85,7 @@ axios.post(`${config.API_URL}/api/upload`, uploadImage)
         carName:carName, Transmission:Transmission, wheelDrive:wheelDrive, Horsepower:Horsepower,
         carModel:carModel, insurance:insurance, User:User, image: response.data.image
 
-      }) 
+      }, {withCredentials: true}) 
             .then((response) => {
                 this.setState({
                   sportcars: [response.data, ...this.state.sportcars]
@@ -114,7 +115,7 @@ handleRquestCarSubmit=((event)=>{
 
       axios.post(`${config.API_URL}/api/requestcar/create`,{
         date:date, address:address, User:User
-      })
+      }, {withCredentials: true})
       .then((response) => {
         this.setState({
           requestcar: [response.data, ...this.state.requestcar]
@@ -167,7 +168,7 @@ handleLogout = () => {
     carName: sportcars.carName, Transmission: sportcars.Transmission, wheelDrive: sportcars.wheelDrive, 
     Horsepower: sportcars.Horsepower, carModel: sportcars.carModel, insurance: sportcars.insurance, 
     User: sportcars.User
-  })
+  }, {withCredentials: true})
     .then(() => {
         let newsportcar = this.state.sportcar.map((singlesportcar) => {
             if (sportcars._id === singlesportcar._id) {
@@ -227,6 +228,10 @@ handleLogout = () => {
                 <Route  path="/signin"  render={(routeProps) => {
               return  <Signin onSignIn={this.handleSignIn} {...routeProps}  />
             }}/>
+
+            <Route  path="/Signup"  render={(routeProps) => {
+                          return  <Signup onSignUp={this.handleSignUp} {...routeProps}  />
+                        }}/>
 
             { <Route  path="/SportcarDetails/:sportcarsId" render={(routeProps) => {
                 return <SportcarDetails user={loggedInUser} {...routeProps}  />   }} /> }

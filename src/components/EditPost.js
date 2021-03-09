@@ -24,15 +24,15 @@ export default class EditPost extends Component {
       })
   }
 
-  changeImage = (event) => {
-        let file = event.target.file[0]
-        let cloneSportcar = JSON.parse(JSON.stringify(this.state.sportcars))
-        cloneSportcar.image = file
+//   changeImage = (event) => {
+//         let file = event.target.file[0]
+//         let cloneSportcar = JSON.parse(JSON.stringify(this.state.sportcars))
+//         cloneSportcar.image = file
 
-        this.setState({
-            sportcars: cloneSportcar
-        })
-  }
+//         this.setState({
+//             sportcars: cloneSportcar
+//         })
+//   }
 
   changeCarName = (event) => {
         let text = event.target.value
@@ -104,15 +104,17 @@ export default class EditPost extends Component {
         
     return (
         
-      <div  > <Landing/>
+      <div  > 
+            {/* <Landing/> */}
+
               <div></div> 
 
 
           <h1>edit your sport car post</h1>
            
 
-        <form>
-            {/* <input type="file" onChange={this.changeImage} value={sportcar.image}/> */}
+      
+            {/* <input type="file" onChange={this.changeImage} value={sportcars.image}/> */}
 
             <div className="form-group">
             <label htmlFor="InputUsername">Car name</label>
@@ -153,7 +155,7 @@ export default class EditPost extends Component {
 
             <button onClick={ () => { onEdit(sportcars) } }  >Submit</button>
 
-    </form>
+ 
 
      </div>
    )
